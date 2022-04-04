@@ -1,0 +1,83 @@
+--without a WHERE, this will just create two new rows with information in the specified column
+INSERT INTO songs (artist_name)
+VALUES 
+	('Riot'),
+	('GG Magree')
+	
+--changing a specific coordinate
+UPDATE songs
+SET artist_name = ('Riot')
+WHERE id=1
+
+UPDATE songs
+SET artist_name = ('GG Magree')
+WHERE id=2
+--deleting from a specific coordinate
+DELETE FROM songs
+WHERE id=3
+
+DELETE FROM songs
+WHERE id=4
+
+-- all on one line
+INSERT INTO songs (title, feature, artist_name, albums)
+VALUES ('Money In the Bag', 'Kiesza', 'Lights', 'PEP')
+
+--manually inserting null as a value
+INSERT INTO songs (title, feature, artist_name, albums)
+VALUES ('Dimension', null , 'Excision', 'Dimension (Single)')
+
+--special characters are ignored as normal inside of a string
+--order matters just like they do in other languages
+INSERT INTO songs (title, feature, artist_name, albums)
+VALUES ('Hayloft II', null , 'Mother Mother', 'Hayloft & Hayloft II (Single)')
+
+CREATE TABLE new-music (
+	id serial PRIMARY KEY,
+	playlist_name varchar,
+	songs varchar,
+	mood varchar
+)
+
+INSERT INTO new-music (playlist_name, mood)
+VALUES ('New Music', 'High-Energy')
+
+--I shouldnt have named the whole table "new music," changing it to "playlists"
+ALTER TABLE new_music
+RENAME TO playlists
+
+--creating a new table for artists
+CREATE TABLE artists (
+	id serial PRIMARY KEY,
+	artist_name varchar,
+	albums varchar
+)
+
+--if you don't include a primary key in your table, you won't be able to edit the infomration in that table because the id is necessary to find the appropriate rwo.
+
+--adding a foreign key column so I can link songs to their albums
+ALTER TABLE songs
+ADD album_fk int;
+
+--create and define a foreign key
+--I had to use the existing code that I could find to get this process started.  I am changing it to suit my needs now
+--I'll work on figuring out what's going on later.
+CREATE TABLE contacts(
+   contact_id INT GENERATED ALWAYS AS IDENTITY,
+   customer_id INT,
+   contact_name VARCHAR(255) NOT NULL,
+   phone VARCHAR(15),
+   email VARCHAR(100),
+   PRIMARY KEY(contact_id),
+   CONSTRAINT fk_customer
+      FOREIGN KEY(customer_id) 
+	  REFERENCES songs(id)
+	)
+    
+--changing a single column header to a new name    
+ALTER TABLE albums
+RENAME COLUMN contact_name TO album_name
+
+--deleting the superflous email column
+ALTER TABLE albums
+DROP COLUMN email
